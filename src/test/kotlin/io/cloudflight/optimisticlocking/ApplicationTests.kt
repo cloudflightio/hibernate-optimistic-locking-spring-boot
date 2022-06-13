@@ -12,8 +12,11 @@ import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.system.CapturedOutput
+import org.springframework.boot.test.system.OutputCaptureExtension
 import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.cloud.openfeign.FeignClientBuilder
 import org.springframework.context.ApplicationContext
@@ -22,6 +25,7 @@ import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
+@ExtendWith(OutputCaptureExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class ApplicationTests(
     @LocalServerPort private val localServerPort: Int,
@@ -88,7 +92,7 @@ class ApplicationTests(
     }
 
     @Test
-    fun `concurrent database transactions`() {
+    fun `concurrent database transactions`(output: CapturedOutput) {
         // given
         val createDto =
             PersonDto(UUID.fromString("a426dbe8-e711-45cc-a2f7-5651dc2ea124"), "John Doe", "Doe Street 1")
@@ -97,7 +101,6 @@ class ApplicationTests(
         // when
         val executor = Executors.newFixedThreadPool(5)
         for (i in 1..5) {
-            println(i)
             val updateDto =
                 PersonDto(createdDto.id, "${createdDto.name} update $i", "${createdDto.address} update $i", 0)
             executor.execute {
@@ -114,6 +117,9 @@ class ApplicationTests(
         // then
         assertThat(personApi.getPerson(createDto.id).version).isEqualTo(1)
         verify(exactly = 5) { personService.updatePerson(any()) }
+        assertThat(output.all).contains("ObjectOptimisticLockingFailureException: " +
+                "Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1; " +
+                "statement executed: update person set address=?, name=?, version=? where id=? and version=?")
     }
 }
 
