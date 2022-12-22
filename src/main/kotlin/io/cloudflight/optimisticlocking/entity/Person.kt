@@ -1,14 +1,15 @@
 package io.cloudflight.optimisticlocking.entity
 
-import org.hibernate.annotations.Type
+import org.hibernate.annotations.JdbcTypeCode
+import org.hibernate.type.SqlTypes
 import java.util.*
-import javax.persistence.Entity
-import javax.persistence.Id
-import javax.persistence.Version
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Version
 
 @Entity
 class Person(
-    @Id @Type(type = "uuid-char") var id: UUID,
+    @Id @JdbcTypeCode(SqlTypes.CHAR) var id: UUID,
     var name: String,
     var address: String
 ) {

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
-import javax.persistence.EntityNotFoundException
-import javax.persistence.OptimisticLockException
+import jakarta.persistence.EntityNotFoundException
+import jakarta.persistence.OptimisticLockException
 
 @RestController
 class PersonController(

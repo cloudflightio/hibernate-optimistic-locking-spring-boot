@@ -1,11 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "2.7.0"
-	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.6.21"
-	kotlin("plugin.spring") version "1.6.21"
-	kotlin("plugin.jpa") version "1.6.21"
+	id("org.springframework.boot") version "3.0.0"
+	id("io.spring.dependency-management") version "1.1.0"
+	kotlin("jvm") version "1.7.21"
+	kotlin("plugin.spring") version "1.7.21"
+	kotlin("plugin.jpa") version "1.7.21"
 }
 
 group = "io.cloudflight"
@@ -22,13 +22,13 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
+	implementation("io.github.microutils:kotlin-logging-jvm:3.0.4")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test") {
 		exclude(module = "mockito-core")
 	}
-	testImplementation("com.ninja-squad:springmockk:3.1.1")
-	testImplementation("org.springframework.cloud:spring-cloud-starter-openfeign:3.1.3")
+	testImplementation("com.ninja-squad:springmockk:4.0.0")
+	testImplementation("org.springframework.cloud:spring-cloud-starter-openfeign:4.0.0")
 }
 
 tasks.withType<KotlinCompile> {

@@ -7,9 +7,9 @@ import io.cloudflight.optimisticlocking.service.PersonService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.util.*
-import javax.persistence.EntityNotFoundException
-import javax.persistence.OptimisticLockException
-import javax.transaction.Transactional
+import jakarta.persistence.EntityNotFoundException
+import jakarta.persistence.OptimisticLockException
+import jakarta.transaction.Transactional
 
 @Service
 @Transactional
