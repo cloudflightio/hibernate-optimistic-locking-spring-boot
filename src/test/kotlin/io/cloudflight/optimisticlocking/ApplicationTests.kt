@@ -53,7 +53,7 @@ class ApplicationTests(
         val createdDto = personApi.createPerson(createDto)
 
         // then
-        assertThat(createdDto).usingRecursiveComparison().ignoringFields("version").isEqualTo(createDto);
+        assertThat(createdDto).usingRecursiveComparison().ignoringFields("version").isEqualTo(createDto)
         assertThat(createdDto.version).isEqualTo(0)
     }
 
@@ -70,7 +70,7 @@ class ApplicationTests(
         val updatedDto = personApi.updatePerson(updateDto)
 
         // then
-        assertThat(updatedDto).usingRecursiveComparison().ignoringFields("version").isEqualTo(updateDto);
+        assertThat(updatedDto).usingRecursiveComparison().ignoringFields("version").isEqualTo(updateDto)
         assertThat(updatedDto.version).isEqualTo(1)
     }
 
@@ -118,8 +118,7 @@ class ApplicationTests(
         assertThat(personApi.getPerson(createDto.id).version).isEqualTo(1)
         verify(exactly = 5) { personService.updatePerson(any()) }
         assertThat(output.all).contains("ObjectOptimisticLockingFailureException: " +
-                "Batch update returned unexpected row count from update [0]; actual row count: 0; expected: 1; " +
-                "statement executed: update person set address=?, name=?, version=? where id=? and version=?")
+                "Row was updated or deleted by another transaction")
     }
 }
 
